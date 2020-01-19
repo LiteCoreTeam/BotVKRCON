@@ -1,17 +1,19 @@
 <?php
-$buydom = "a";
+$domen = 'play.ru'; // ДОМЕН ДЛЯ ПОКУПОК/РЕДИРЕКТА
+$token = ''; // ТОКЕН ГРУППЫ
+$anofs = ''; // ОТВЕТ КОТОРЫЙ ДОЛЖЕН ВЕРНУТЬ СЕРВЕР
 function isPost(){
     return $_SERVER['REQUEST_METHOD'] === 'POST';
 }
 if (!isPost()) {
-    header('Location: http://shop.redex-mc.fun/'); // РЕДИРЕКТ ПРИ ЗАПРОСЕ РЕАЛЬНОГО ПОЛЬЗОВАТЕЛЯ, Т.К ЭТО ПАЛИТ ВОЗМОЖНО ВРЕДОНОСНЫЙ ЗАПРОС
+    header('Location: '.$domen);
     exit;
 }
 include 'vk_api.php';
-$vk = new vk_api('8072af487161239bf6a770b592ef3a347eb58bedeaee0999b6a25a754a7c35b1e1ce82c2c84082c62a832', '5.81');
+$vk = new vk_api($token, '5.81');
 $data = json_decode(file_get_contents('php://input'));
 if ($data->type === 'confirmation') {
-	exit('c5fb6d3f'); // ОТВЕТ КОТОРЫЙ ДОЛЖЕН ВЕРНУТЬ СЕРВЕР
+	exit($anofs);
 }
 $vk->sendOK();
 $peer_id = $data->object->peer_id;
@@ -56,7 +58,7 @@ if ($data->type === 'message_new') {
             $vk->sendOK();
 	    }
     }else{
-    	$vk->sendMessage($peer_id, '[❌] У Вас нет прав!'.PHP_EOL.'[❗] Купить доступ к консоли или привилегию можно на сайте: '.$buydom);
+    	$vk->sendMessage($peer_id, '[❌] У Вас нет прав!'.PHP_EOL.'[❗] Купить доступ к консоли или привилегию можно на сайте: '.$domen);
     	//$vk->sendMessage($peer_id, '[❌] У Вас нет прав!');
         $vk->sendOK();
     }
