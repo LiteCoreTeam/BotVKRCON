@@ -48,7 +48,7 @@ if ($data->type === 'message_new') {
                 $msg1 = strtolower($msg);
 
                 if (strpos($msg1, 'dumpmemory') !== false or strpos($msg1, 'stop') !== false or strpos($msg1, 'ms') !== false or strpos($msg1, 'mp') !== false or strpos($msg1, 'reload') !== false or strpos($msg1, 'pocketmine:') !== false or strpos($msg1, 'ep') !== false or strpos($msg1, 'op') !== false or strpos($msg1, 'deop') !== false) {
-    		        $vk->sendMessage($peer_id, '[❌] Данная команда запрщена администрацией сервера!');
+    		        $vk->sendMessage($peer_id, '[❌] Данная команда запрещена администрацией сервера!');
                     $vk->sendOK();
     	        }else{
     		        $res = $Query->Rcon($msg);
