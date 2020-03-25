@@ -1,8 +1,8 @@
 <?php
-$domen = ''; // ДОМЕН ДЛЯ СООБЩЕНИЯ/РЕДИРЕКТА
-$token = ''; // ТОКЕН ГРУППЫ
-$anofs = ''; // ОТВЕТ КОТОРЫЙ ДОЛЖЕН ВЕРНУТЬ СЕРВЕР
-$adm = 'ddosenka'; // Если цифровой, то idцифры, если буквенный - просто вставить его, например ddosenka
+$domen = ''; // ДОМЕН ДЛЯ СООБЩЕНИЯ/РЕДИРЕКТА.
+$token = ''; // ТОКЕН ГРУППЫ.
+$anofs = ''; // ОТВЕТ КОТОРЫЙ ДОЛЖЕН ВЕРНУТЬ СЕРВЕР.
+$adm = ''; // Если цифровой, то idцифры, если буквенный - просто вставить его, например ddosenka.
 
 if (!isPost()) {
     header('Location: http://'.$domen);
@@ -36,35 +36,36 @@ if ($data->type === 'message_new') {
 
     $red = substr($messagei, 0, 1);
     if(strpos($red, '/') !== false){
-    	if ($id === 421256157 or $id === 197423091 or $id === 387336196 or $id === 301466781 or $id === 209157736 or $id === 455844524 or $id === 384016589) { // Участники тестов.
+    	if ($id === 421256157) { // Временная система прав.
     	    if (strlen($messagei) === 1 or strlen($messagei) > 50) {
     		    $vk->sendMessage($peer_id, "[❌] Вы некорректно указали команду или её аргумент(ы)!");
     	    }else{
     	        require './SourceQuery/SourceQuery.class.php';
                 $Query = new SourceQuery();
                 $Query->Connect('127.0.0.1', 19132, 1, 1);
-                $Query->setRconPassword('221135');
-                $msg = substr($message, 1);
+                $Query->setRconPassword('');
+                $msg = substr($message, 0);
                 $msg1 = strtolower($msg);
+                $forpr = substr($message, 1);
 
-                if (strpos($msg1, 'dumpmemory') !== false or strpos($msg1, 'stop') !== false or strpos($msg1, 'ms') !== false or strpos($msg1, 'mp') !== false or strpos($msg1, 'reload') !== false or strpos($msg1, 'pocketmine:') !== false or strpos($msg1, 'ep') !== false or strpos($msg1, 'op') !== false or strpos($msg1, 'deop') !== false) {
+                if (strpos($msg1, '/dumpmemory') !== false or strpos($msg1, '/stop') !== false or strpos($msg1, '/ms') !== false or strpos($msg1, '/mp') !== false or strpos($msg1, '/reload') !== false or strpos($msg1, '/pocketmine:') !== false or strpos($msg1, '/ep') !== false or strpos($msg1, '/op') !== false or strpos($msg1, '/deop') !== false) {
     		        $vk->sendMessage($peer_id, '[❌] Данная команда запрещена администрацией сервера!');
                     $vk->sendOK();
     	        }else{
-    		        $res = $Query->Rcon($msg);
+    		        $res = $Query->Rcon($forpr);
     		        $res1 = ReplaceColorTags($res);
     		        if (strlen($res) > 2) {
                         if (strpos($messagei, "ban") or strpos($messagei, "kick") or strpos($messagei, "mute")) {
                             $vk->sendMessage($peer_id, '@'.$adm.PHP_EOL.PHP_EOL.'[❌] Пользователь @id'.$id.' выполнил команду, которая требует Вашей проверки!');
                         }
-    		            $vk->sendMessage($peer_id, '[✔] Команда `'.$msg.'` успешно отправлена');
+    		            $vk->sendMessage($peer_id, '[✔] Команда `'.$forpr.'` успешно отправлена');
                         $vk->sendMessage($peer_id, 'Ответ сервера: '.PHP_EOL.$res1);
                         $vk->sendOK();
     	            }else{
                         if (strpos($messagei, "ban") or strpos($messagei, "kick") or strpos($messagei, "mute")) {
                             $vk->sendMessage($peer_id, '@'.$adm.PHP_EOL.PHP_EOL.'[❌] Пользователь @id'.$id.' выполнил команду, которая требует Вашей проверки!');
                         }
-    		            $vk->sendMessage($peer_id, '[✔] Команда `'.$msg.'` успешно отправлена');
+    		            $vk->sendMessage($peer_id, '[✔] Команда `'.$forpr.'` успешно отправлена');
                         $vk->sendMessage($peer_id, 'Ответ сервера: пусто');
                         $vk->sendOK();
     	            }
